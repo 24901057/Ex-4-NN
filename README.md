@@ -1,8 +1,8 @@
 
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
+<H3>ENTER YOUR NAME: THEJASHREE S</H3>
+<H3>ENTER YOUR REGISTER NO.: 212224240175</H3>
 <H3>EX. NO.4</H3>
-<H3>DATE:</H3>
+<H3>DATE:24-08-2026</H3>
 <H1 ALIGN =CENTER>Implementation of MLP with Backpropagation for Multiclassification</H1>
 <H3>Aim:</H3>
 To implement a Multilayer Perceptron for Multi classification
@@ -114,13 +114,66 @@ Normalize our dataset.
 
 8. Finally, call the functions confusion_matrix(), and the classification_report() in order to evaluate the performance of our classifier.
 
-<H3>Program:</H3> 
+## Program:
 
-Insert your code here
+```py
+# Include packages and built-in classes
+import pandas as pd
+import sklearn
+from sklearn import preprocessing
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import classification_report, confusion_matrix
 
+# Read the CSV file
+data = pd.read_csv("/content/Iris_data.csv")
+
+# Remove rows with any NaN values
+data.dropna(inplace=True)
+
+# Separate input features and target
+X = data.iloc[:, :-1]
+y = data.iloc[:, -1]
+
+# Transform categorical values into numerical values
+le = preprocessing.LabelEncoder()
+y = le.fit_transform(y)
+
+# Split the data into training and testing
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Normalize the input features
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Define the MLP classifier
+mlp = MLPClassifier(
+    hidden_layer_sizes=(10,),
+    activation='relu',
+    solver='adam',
+    max_iter=2000, # Increased max_iter further to allow for better convergence
+    random_state=42
+)
+
+# Train the classifier
+mlp.fit(X_train, y_train)
+
+# Evaluation of algorithm performance
+y_pred = mlp.predict(X_test)
+
+print("Confusion Matrix:")
+print(confusion_matrix(y_test, y_pred))
+
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred))
+```
 <H3>Output:</H3>
 
-Show your results here
+<img width="821" height="328" alt="image" src="https://github.com/user-attachments/assets/6729b892-f6a4-4906-a3af-fb8265e3474b" />
 
 <H3>Result:</H3>
 Thus, MLP is implemented for multi-classification using python.
